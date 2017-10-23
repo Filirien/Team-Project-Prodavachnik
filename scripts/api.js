@@ -26,6 +26,24 @@
             password: "m"
         }
     ];
+	    // Loading of adverts
+    $.mockjax(function (requestSettings) {
+        if (requestSettings.url==="https://mock.api.com/appdata/kid_rk/adverts" &&
+            requestSettings.method === "GET") {
+            return {
+                response: function (origSettings) {
+                    if (requestSettings.headers["Authorization"].includes("Kinvey mock_token")) {
+                        this.responseText = adverts;
+                    } else {
+                        this.status = 403;
+                        this.responseText = "You are not authorized";
+                    }
+                }
+            };
+        }
+    });
+})();
+
 
     // User login
     $.mockjax(function (requestSettings) {
